@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <h1>Project Dashboard</h1>
+        <div class="profile">👤 Admin</div>
+    </header>
+
+    <!-- ===== MAIN LAYOUT ===== -->
+    <div class="container">
+
+        <!-- Sidebar -->
+        
+        <aside class="sidebar">
+            <nav>
+                <a href="#" >Dashboard</a>
+                <a href="index.html" class="active">Reports</a>
+                <a href="#">Settings</a>
+            </nav>
+        </aside>
+        
+
+        <!-- Main Content -->
+        <main class="content">
+
+            <!-- Controls -->
+            <div class="controls">
+                <input type="text" id="searchInput" placeholder="Search project..." />
+
+                <select id="statusFilter">
+                    <option value="All">All</option>
+                    <option value="Completed">Completed</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Pending">Pending</option>
+                </select>
+            </div>
+
+            <!-- Table -->
+            <table>
+                <thead>
+                    <tr>
+                        <th onclick="sortByName()">Project Name ⬍</th>
+                        <th>Status</th>
+                        <th onclick="sortByTasks()">Tasks ⬍</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+
+            <!-- Chart -->
+            <div class="chart-container">
+                <canvas id="taskChart"></canvas>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
