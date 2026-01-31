@@ -8,66 +8,84 @@
     <!-- CSS -->
     <link rel="stylesheet" href="style.css" />
 
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header class="header">
-        <h1>Project Dashboard</h1>
-        <div class="profile">👤 Admin</div>
-    </header>
+<!-- ===== HEADER ===== -->
+<header class="header">
+    <h1>Project Dashboard</h1>
 
-    <!-- ===== MAIN LAYOUT ===== -->
-    <div class="container">
-
-        <!-- Sidebar -->
-        
-        <aside class="sidebar">
-            <nav>
-                <a href="#" >Dashboard</a>
-                <a href="index.html" class="active">Reports</a>
-                <a href="#">Settings</a>
-            </nav>
-        </aside>
-        
-
-        <!-- Main Content -->
-        <main class="content">
-
-            <!-- Controls -->
-            <div class="controls">
-                <input type="text" id="searchInput" placeholder="Search project..." />
-
-                <select id="statusFilter">
-                    <option value="All">All</option>
-                    <option value="Completed">Completed</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Pending">Pending</option>
-                </select>
-            </div>
-
-            <!-- Table -->
-            <table>
-                <thead>
-                    <tr>
-                        <th onclick="sortByName()">Project Name ⬍</th>
-                        <th>Status</th>
-                        <th onclick="sortByTasks()">Tasks ⬍</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-            </table>
-
-            <!-- Chart -->
-            <div class="chart-container">
-                <canvas id="taskChart"></canvas>
-            </div>
-
-        </main>
+    <div class="profile-container" onclick="toggleProfile(event)">
+        <div class="profile profile-icon">👤 Admin</div>
+        <div class="profile-dropdown" id="profileDropdown">
+            <p><strong>Name:</strong> Mounika K</p>
+            <p><strong>Contact:</strong> 98765 43210</p>
+            <hr />
+            <a href="#">Edit Profile</a>
+            <button class="logout" id="logout_btn" onclick="logout()">Logout</button>
+        </div>
     </div>
+</header>
 
-    <script src="script.js"></script>
+<!-- ===== MAIN LAYOUT ===== -->
+<div class="container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <nav>
+            <a href="#">Dashboard</a>
+            <a href="index.html" class="active">Reports</a>
+            <a href="#">Settings</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+
+        <!-- Controls -->
+        <div class="controls">
+            <input type="text" id="searchInput" placeholder="Search project..." />
+
+            <select id="statusFilter">
+                <option value="All">All</option>
+                <option value="Completed">Completed</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Pending">Pending</option>
+            </select>
+        </div>
+
+        <!-- TABLE (FIXED STRUCTURE) -->
+        <table>
+            <thead>
+                <tr>
+                    <th onclick="sortByName()">Project Name ⬍</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th onclick="sortByTasks()">Tasks ⬍</th>
+                    <th>Start Date</th>
+                    <th>Expected End Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+
+        <!-- Chart -->
+        <div class="chart-container">
+            <canvas id="taskChart"></canvas>
+        </div>
+
+    </main>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

@@ -16,6 +16,38 @@
     padding: 15px 20px;
 }
 
+/* ===== PROFILE ===== */
+.profile-container {
+    position: relative;
+    cursor: pointer;
+}
+
+.profile-dropdown {
+    position: absolute;
+    right: 0;
+    top: 45px;
+    background: white;
+    color: black;
+    padding: 15px;
+    width: 200px;
+    display: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.profile-dropdown a {
+    display: block;
+    margin-top: 10px;
+}
+
+.logout {
+    margin-top: 10px;
+    width: 100%;
+    padding: 6px;
+    background: gray;
+    color: white;
+    border: none;
+}
+
 /* ===== LAYOUT ===== */
 .container {
     display: flex;
@@ -34,11 +66,10 @@
     color: white;
     padding: 12px;
     text-decoration: none;
-    margin-bottom: 8px;
 }
 
-.sidebar a:hover,
-.sidebar .active {
+.sidebar a.active,
+.sidebar a:hover {
     background: #1e88e5;
 }
 
@@ -74,14 +105,23 @@ th, td {
 }
 
 th {
-    cursor: pointer;
     background: #eeeeee;
+    cursor: pointer;
 }
 
-/* ===== STATUS COLORS ===== */
 .completed { background: #c8e6c9; }
 .in-progress { background: #fff9c4; }
 .pending { background: #ffcdd2; }
+
+/* ===== ACTION ICONS ===== */
+.actions i {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.view { color: #1e88e5; }
+.edit { color: #f9a825; }
+.delete { color: #e53935; }
 
 /* ===== CHART ===== */
 .chart-container {
