@@ -32,6 +32,10 @@ let currentData = [...projects];
 let nameAsc = true;
 let taskAsc = true;
 
+let selectedProjectId = null; // Stores the ID of the project being edited
+let mode = "add"; // "add" or "edit"
+
+
 /* ===== RENDER TABLE ===== */
 function renderTable(data) {
     const body = document.getElementById("tableBody");
@@ -98,6 +102,25 @@ function viewProject(id) {
 function editProject(id) {
     alert("Edit project ID: " + id);
 }
+function editProject(id) {
+  const project = projects.find(p => p.id === id);
+  if (!project) return;
+
+  selectedProjectId = id;
+  mode = "edit";
+
+  // Fill modal inputs with project data
+  document.getElementById("projectName").value = project.project;
+  document.getElementById("projectDesc").value = project.desc;
+  document.getElementById("projectStatus").value = project.status;
+
+  // Set modal title
+  document.getElementById("modalTitle").innerText = "Edit Project";
+
+  // Show modal
+  document.getElementById("crudModal").style.display = "flex";
+}
+
 
 function deleteProject(id) {
     if (confirm("Delete this project?")) {
@@ -148,6 +171,94 @@ function updateChart(data) {
         }
     });
 }
+
+/*=== Open Edit Profile ====*/
+function openEditModal(event) {
+  event.preventDefault(); // stop page refresh
+
+  // Get current profile values
+  const nameText = document.querySelector(".profile-dropdown p strong")
+    .parentElement.innerText.replace("Name:", "").trim();
+
+  const contactText = document.querySelectorAll(".profile-dropdown p")[1]
+    .innerText.replace("Contact:", "").trim();
+
+  // Set values in modal inputs
+  document.getElementById("editName").value = nameText;
+  document.getElementById("editMobile").value = contactText;
+
+  // Show modal
+  document.getElementById("editModal").style.display = "flex";
+}
+document.getElementById("closeModal").addEventListener("click", () => {
+  document.getElementById("editModal").style.display = "none";
+});
+document.getElementById("saveProfile").addEventListener("click", () => {
+  const newName = document.getElementById("editName").value;
+  const newMobile = document.getElementById("editMobile").value;
+
+  const profileInfo = document.querySelectorAll(".profile-dropdown p");
+  profileInfo[0].innerHTML = `<strong>Name:</strong> ${newName}`;
+  profileInfo[1].innerHTML = `<strong>Contact:</strong> ${newMobile}`;
+
+  document.getElementById("editModal").style.display = "none";
+});
+
+function saveProject() {
+    const name = document.getElementById("projectName").value.trim();
+    const desc = document.getElementById("projectDesc").value.trim();
+    const status = document.getElementById("projectStatus").value;
+      const tasks = document.getElementById("projectTasks").value.trim();
+        const startDate= document.getElementById("projectStartDate").value.trim();
+    const endDate = document.getElementById("projectEndDate").value;
+
+
+    if (!name || !desc) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    if (mode === "edit") {
+        const project = projects.find(p => p.id === selectedProjectId);
+        if (project) {
+            project.project = name;
+            project.desc = desc;
+            project.status = status;
+        }
+    } else if (mode === "add") {
+        const newProject = {
+            id: projects.length ? projects[projects.length - 1].id + 1 : 1,
+            project: name,
+            desc,
+            status: status,
+            tasks: tasks,
+            startDate: startDate,
+            endDate: endDate
+        };
+        projects.push(newProject);
+    }
+
+    currentData = [...projects];
+    renderTable(currentData);
+    updateChart(currentData);
+
+    closeModal(); // close the modal
+}
+
+function closeModal() {
+    document.getElementById("crudModal").style.display = "none";
+}
+
+document.getElementById("addProjectBtn").addEventListener("click", () => {
+    mode = "add";
+    selectedProjectId = null;
+
+    
+    document.getElementById("projectStatus").value = "Pending";
+
+    document.getElementById("crudModal").style.display = "flex";
+});
+
 
 /* ===== INIT ===== */
 renderTable(projects);
