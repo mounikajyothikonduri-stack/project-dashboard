@@ -1,4 +1,4 @@
-const projects = [
+let projects = JSON.parse(localStorage.getItem("projects")) ||[
     {
         id: 1,
         project: "Project A",
@@ -34,7 +34,10 @@ let taskAsc = true;
 
 let selectedProjectId = null; // Stores the ID of the project being edited
 let mode = "add"; // "add" or "edit"
-
+// Save to localStorage
+function saveToStorage() {
+  localStorage.setItem("projects", JSON.stringify(projects));
+}
 
 /* ===== RENDER TABLE ===== */
 function renderTable(data) {
@@ -99,9 +102,7 @@ function viewProject(id) {
     alert(`${p.project}\n${p.desc}\nStatus: ${p.status}`);
 }
 
-function editProject(id) {
-    alert("Edit project ID: " + id);
-}
+
 function editProject(id) {
   const project = projects.find(p => p.id === id);
   if (!project) return;
@@ -113,6 +114,9 @@ function editProject(id) {
   document.getElementById("projectName").value = project.project;
   document.getElementById("projectDesc").value = project.desc;
   document.getElementById("projectStatus").value = project.status;
+  document.getElementById("projectTasks").value = project.tasks;
+  document.getElementById("projectStartDate").value = project.startDate;
+  document.getElementById("projectEndDate").value = project.endDate;
 
   // Set modal title
   document.getElementById("modalTitle").innerText = "Edit Project";
@@ -126,6 +130,7 @@ function deleteProject(id) {
     if (confirm("Delete this project?")) {
         const index = projects.findIndex(p => p.id === id);
         projects.splice(index, 1);
+        saveToStorage();
         currentData = [...projects];
         renderTable(currentData);
         updateChart(currentData);
@@ -224,6 +229,11 @@ function saveProject() {
             project.project = name;
             project.desc = desc;
             project.status = status;
+            project.tasks = tasks;
+            project.startDate = startDate;
+            project.endDate = endDate;
+            saveToStorage();
+
         }
     } else if (mode === "add") {
         const newProject = {
@@ -236,6 +246,8 @@ function saveProject() {
             endDate: endDate
         };
         projects.push(newProject);
+        saveToStorage();
+
     }
 
     currentData = [...projects];
