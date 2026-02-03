@@ -29,11 +29,32 @@
             <p><strong>Name:</strong> Mounika K</p>
             <p><strong>Contact:</strong> 98765 43210</p>
             <hr />
-            <a href="#">Edit Profile</a>
+            <a href="#" onclick="openEditModal(event)">Edit Profile</a>
+              
             <button class="logout" id="logout_btn" onclick="logout()">Logout</button>
         </div>
     </div>
 </header>
+<!-- Edit Profile Button -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <h3>Edit Profile</h3>
+
+        <label>Name</label>
+        <input type="text" id="editName" />
+
+        <label>Contact</label>
+        <input type="text" id="editMobile" />
+
+        <div class="modal-actions">
+            <button id="saveProfile">Save</button>
+            <button id="closeModal">Cancel</button>
+        </div>
+    </div>
+</div>
+
+
+
 
 <!-- ===== MAIN LAYOUT ===== -->
 <div class="container">
@@ -60,6 +81,7 @@
                 <option value="In Progress">In Progress</option>
                 <option value="Pending">Pending</option>
             </select>
+                 <button id="addProjectBtn" onclick="openModal('add')">➕ Add Project</button>
         </div>
 
         <!-- TABLE (FIXED STRUCTURE) -->
@@ -74,9 +96,12 @@
                     <th>Expected End Date</th>
                     <th>Actions</th>
                 </tr>
+           
             </thead>
             <tbody id="tableBody"></tbody>
         </table>
+
+        
 
         <!-- Chart -->
         <div class="chart-container">
@@ -84,6 +109,45 @@
         </div>
 
     </main>
+</div>
+
+<!-- ACTION BUTTON -->
+<button onclick="openModal('add')">➕ Add Project</button>
+
+<!-- MODAL -->
+
+<div id="crudModal" class="modal">
+  <div class="modal-card">
+    <h2 id="modalTitle">Add Project</h2>
+
+    <label>Project Name</label>
+    <input type="text" id="projectName" />
+
+    <label>Description</label>
+    <input type="text" id="projectDesc" />
+
+    <label>Status</label>
+    <select id="projectStatus">
+      <option>Completed</option>
+      <option>In Progress</option>
+      <option>Pending</option>
+    </select>
+
+    <label>Start Date</label>
+    <input type="date" id="projectStartDate" />
+
+    <label>End Date</label>
+    <input type="date" id="projectEndDate" />
+    <label>Description</label>
+    <input type="text" id="projectDesc" />
+    <label>Tasks</label>
+    <input type="number" id="projectTasks" />
+
+    <div class="modal-actions">
+      <button id="saveBtn" onclick="saveProject()">Save</button>
+      <button onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <script src="script.js"></script>
