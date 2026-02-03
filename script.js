@@ -1,4 +1,4 @@
-const projects = [
+let projects = JSON.parse(localStorage.getItem("projects")) ||[
     {
         id: 1,
         project: "Project A",
@@ -34,33 +34,34 @@ let taskAsc = true;
 
 let selectedProjectId = null; // Stores the ID of the project being edited
 let mode = "add"; // "add" or "edit"
-
+// Save to localStorage
+function saveToStorage() {
+  localStorage.setItem("projects", JSON.stringify(projects));
+}
 
 /* ===== RENDER TABLE ===== */
-function renderTable(data) {
-    const body = document.getElementById("tableBody");
-    body.innerHTML = "";
+function renderTable(data = projects) {
+  tableBody.innerHTML = "";
 
-    data.forEach(p => {
-        const row = document.createElement("tr");
-        row.className = p.status.toLowerCase().replace(" ", "-");
-
-        row.innerHTML = `
-            <td>${p.project}</td>
-            <td>${p.desc}</td>
-            <td>${p.status}</td>
-            <td>${p.tasks}</td>
-            <td>${p.startDate}</td>
-            <td>${p.endDate}</td>
-            <td class="actions">
-                <i class="fa-solid fa-eye view" onclick="viewProject(${p.id})"></i>
-                <i class="fa-solid fa-pen edit" onclick="editProject(${p.id})"></i>
-                <i class="fa-solid fa-trash delete" onclick="deleteProject(${p.id})"></i>
-            </td>
-        `;
-        body.appendChild(row);
-    });
+  data.forEach(p => {
+    tableBody.innerHTML += `
+      <tr>
+        <td>${p.project}</td>
+        <td>${p.desc}</td>
+        <td>${p.status}</td>
+        <td>${p.tasks}</td>
+        <td>${p.startDate || ""}</td>
+        <td>${p.endDate || ""}</td>
+        <td>
+          <i class="fa-solid fa-eye" onclick="viewProject(${p.id})"></i>
+          <i class="fa-solid fa-pen" onclick="editProject(${p.id})"></i>
+          <i class="fa-solid fa-trash" onclick="deleteProject(${p.id})"></i>
+        </td>
+      </tr>
+    `;
+  });
 }
+
 
 /* ===== SORT ===== */
 function sortByName() {
@@ -99,9 +100,7 @@ function viewProject(id) {
     alert(`${p.project}\n${p.desc}\nStatus: ${p.status}`);
 }
 
-function editProject(id) {
-    alert("Edit project ID: " + id);
-}
+
 function editProject(id) {
   const project = projects.find(p => p.id === id);
   if (!project) return;
@@ -113,6 +112,9 @@ function editProject(id) {
   document.getElementById("projectName").value = project.project;
   document.getElementById("projectDesc").value = project.desc;
   document.getElementById("projectStatus").value = project.status;
+  document.getElementById("projectTasks").value = project.tasks;
+  document.getElementById("projectStartDate").value = project.startDate;
+  document.getElementById("projectEndDate").value = project.endDate;
 
   // Set modal title
   document.getElementById("modalTitle").innerText = "Edit Project";
@@ -126,6 +128,7 @@ function deleteProject(id) {
     if (confirm("Delete this project?")) {
         const index = projects.findIndex(p => p.id === id);
         projects.splice(index, 1);
+        saveToStorage();
         currentData = [...projects];
         renderTable(currentData);
         updateChart(currentData);
@@ -224,6 +227,11 @@ function saveProject() {
             project.project = name;
             project.desc = desc;
             project.status = status;
+            project.tasks = tasks;
+            project.startDate = startDate;
+            project.endDate = endDate;
+            saveToStorage();
+
         }
     } else if (mode === "add") {
         const newProject = {
@@ -236,6 +244,8 @@ function saveProject() {
             endDate: endDate
         };
         projects.push(newProject);
+        saveToStorage();
+
     }
 
     currentData = [...projects];
@@ -258,6 +268,39 @@ document.getElementById("addProjectBtn").addEventListener("click", () => {
 
     document.getElementById("crudModal").style.display = "flex";
 });
+
+document.getElementById("csvInput").addEventListener("change", e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = evt => {
+        projects = parseCSV(evt.target.result);
+        renderTable();
+    };
+
+    reader.readAsText(file);
+});
+
+/* ===== CSV PARSER ===== */
+function parseCSV(csv) {
+    const lines = csv.split("\n");
+    const data = [];
+
+    for (let i = 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+data.push({
+  id: Number(id),
+  project: project?.trim(),
+  desc: desc?.trim(),
+  status: status?.trim(),
+  tasks: Number(tasks) || 0,
+  startDate: startDate?.replace(/"/g, "").trim(),
+  endDate: endDate?.replace(/"/g, "").trim()
+});
+        
+    }
+    return data;
+}
 
 
 /* ===== INIT ===== */

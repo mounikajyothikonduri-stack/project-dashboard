@@ -73,16 +73,20 @@
 
         <!-- Controls -->
         <div class="controls">
-            <input type="text" id="searchInput" placeholder="Search project..." />
+    <input type="text" id="searchInput" placeholder="Search project..." />
 
-            <select id="statusFilter">
-                <option value="All">All</option>
-                <option value="Completed">Completed</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Pending">Pending</option>
-            </select>
-                 <button id="addProjectBtn" onclick="openModal('add')">➕ Add Project</button>
-        </div>
+    <select id="statusFilter">
+        <option value="All">All</option>
+        <option value="Completed">Completed</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Pending">Pending</option>
+    </select>
+
+    <input type="file" id="csvInput" accept=".csv" />
+    <button onclick="downloadCSV()">Download CSV</button>
+
+    <button id="addProjectBtn" onclick="openModal('add')">➕ Add Project</button>
+</div>
 
         <!-- TABLE (FIXED STRUCTURE) -->
         <table>
@@ -111,8 +115,7 @@
     </main>
 </div>
 
-<!-- ACTION BUTTON -->
-<button onclick="openModal('add')">➕ Add Project</button>
+
 
 <!-- MODAL -->
 
@@ -138,8 +141,7 @@
 
     <label>End Date</label>
     <input type="date" id="projectEndDate" />
-    <label>Description</label>
-    <input type="text" id="projectDesc" />
+    
     <label>Tasks</label>
     <input type="number" id="projectTasks" />
 
