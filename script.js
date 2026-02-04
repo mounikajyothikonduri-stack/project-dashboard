@@ -9,6 +9,39 @@ let taskAsc = true;
 const tableBody = document.getElementById("tableBody");
 const filter = document.getElementById("statusFilter");
 
+const REQUIRED_HEADERS = [
+  "id",
+  "project",
+  "desc",
+  "status",
+  "tasks",
+  "startDate",
+  "endDate"
+];
+function validateCSVHeaders(headers) {
+  return REQUIRED_HEADERS.every(h =>
+    headers.includes(h)
+  );
+}
+reader.onload = e => {
+  const csvText = e.target.result.trim();
+  const rows = csvText.split("\n");
+  const headers = rows[0].split(",").map(h => h.trim());
+
+  if (!validateCSVHeaders(headers)) {
+    alert("Invalid CSV format. Please upload a valid file.");
+    return;
+  }
+
+  projects = parseCSV(csvText);
+  currentData = [...projects];
+
+  saveToStorage();
+  renderTable(currentData);
+  updateChart(currentData);
+};
+
+
 /***********************
  * STORAGE
  ***********************/
