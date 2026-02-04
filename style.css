@@ -109,9 +109,19 @@ th {
     cursor: pointer;
 }
 
-.completed { background: #c8e6c9; }
-.in-progress { background: #fff9c4; }
-.pending { background: #ffcdd2; }
+
+/* STATUS COLORS */
+.complete{
+  background-color: #18e11f; /* green */
+}
+
+.in-progress {
+  background-color: #fff9c4; /* yellow */
+}
+
+.pending {
+  background-color: #ffcdd2; /* red */
+}
 
 /* ===== ACTION ICONS ===== */
 .actions i {

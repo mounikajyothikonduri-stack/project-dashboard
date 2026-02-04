@@ -77,13 +77,13 @@
 
     <select id="statusFilter">
         <option value="All">All</option>
-        <option value="Completed">Completed</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Pending">Pending</option>
+        <option value="complete">Complete</option>
+        <option value="in-progress">In Progress</option>
+        <option value="pending">Pending</option>
     </select>
 
     <input type="file" id="csvInput" accept=".csv" />
-    <button onclick="downloadCSV()">Download CSV</button>
+<button type="button" onclick="downloadCSV()">Download CSV</button>
 
     <button id="addProjectBtn" onclick="openModal('add')">➕ Add Project</button>
 </div>
@@ -131,26 +131,27 @@
 
     <label>Status</label>
     <select id="projectStatus">
-      <option>Completed</option>
+      <option>Complete</option>
       <option>In Progress</option>
       <option>Pending</option>
     </select>
+
+    <label>Tasks</label>
+    <input type="number" id="projectTasks" />
 
     <label>Start Date</label>
     <input type="date" id="projectStartDate" />
 
     <label>End Date</label>
     <input type="date" id="projectEndDate" />
-    
-    <label>Tasks</label>
-    <input type="number" id="projectTasks" />
 
     <div class="modal-actions">
-      <button id="saveBtn" onclick="saveProject()">Save</button>
-      <button onclick="closeModal()">Cancel</button>
+      <button type="button" onclick="saveProject()">Save</button>
+      <button type="button" onclick="closeModal()">Cancel</button>
     </div>
   </div>
 </div>
+
 
 <script src="script.js"></script>
 </body>
