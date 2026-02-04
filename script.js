@@ -27,6 +27,77 @@ function displayStatus(status) {
   return status.replace("-", " ").replace(/\b\w/g, c => c.toUpperCase());
 }
 
+/***-----Profile---******/
+function toggleProfile(event) {
+  event.stopPropagation(); // prevent body click
+  const dropdown = document.getElementById("profileDropdown");
+
+  dropdown.style.display =
+    dropdown.style.display === "block" ? "none" : "block";
+}
+document.body.addEventListener("click", () => {
+  const dropdown = document.getElementById("profileDropdown");
+  dropdown.style.display = "none";
+});
+function openEditModal(event) {
+  event.preventDefault();
+
+  const nameText = document.querySelector(
+    "#profileDropdown p:nth-child(1)"
+  ).innerText.replace("Name:", "").trim();
+
+  const contactText = document.querySelector(
+    "#profileDropdown p:nth-child(2)"
+  ).innerText.replace("Contact:", "").trim();
+
+  document.getElementById("editName").value = nameText;
+  document.getElementById("editMobile").value = contactText;
+
+  document.getElementById("editModal").style.display = "flex";
+}
+document.getElementById("saveProfile").addEventListener("click", () => {
+  const newName = document.getElementById("editName").value.trim();
+  const newMobile = document.getElementById("editMobile").value.trim();
+
+  if (!newName || !newMobile) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const profileInfo = document.querySelectorAll("#profileDropdown p");
+  profileInfo[0].innerHTML = `<strong>Name:</strong> ${newName}`;
+  profileInfo[1].innerHTML = `<strong>Contact:</strong> ${newMobile}`;
+
+  document.getElementById("editModal").style.display = "none";
+});
+document.getElementById("closeModal").addEventListener("click", () => {
+  document.getElementById("editModal").style.display = "none";
+});
+function saveProfileToStorage(name, mobile) {
+  localStorage.setItem(
+    "adminProfile",
+    JSON.stringify({ name, mobile })
+  );
+}
+
+function loadProfileFromStorage() {
+  const profile = JSON.parse(localStorage.getItem("adminProfile"));
+  if (!profile) return;
+
+  const profileInfo = document.querySelectorAll("#profileDropdown p");
+  profileInfo[0].innerHTML = `<strong>Name:</strong> ${profile.name}`;
+  profileInfo[1].innerHTML = `<strong>Contact:</strong> ${profile.mobile}`;
+}
+document.getElementById("logoutBtn").onclick = () => {
+  localStorage.clear();
+  window.location.href = "login.html";
+};
+
+
+loadProfileFromStorage();
+
+
+
 /***********************
  * RENDER TABLE
  ***********************/
