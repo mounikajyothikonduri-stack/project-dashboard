@@ -143,6 +143,23 @@ function closeModal() {
 }
 
 
+function openAddModal() {
+  mode = "add";
+  selectedProjectId = null;
+
+  document.getElementById("modalTitle").innerText = "Add Project";
+
+  document.getElementById("projectName").value = "";
+  document.getElementById("projectDesc").value = "";
+  document.getElementById("projectStatus").value = "Completed";
+  document.getElementById("projectTasks").value = "";
+  document.getElementById("projectStartDate").value = "";
+  document.getElementById("projectEndDate").value = "";
+
+  document.getElementById("crudModal").style.display = "flex";
+}
+
+
 function saveProject() {
   const name = document.getElementById("projectName").value.trim();
   const desc = document.getElementById("projectDesc").value.trim();
@@ -154,21 +171,39 @@ function saveProject() {
   const endDate = document.getElementById("projectEndDate").value;
 
   if (!name || !desc) {
-    alert("Please fill all fields");
+    alert("Please fill all required fields");
     return;
+  }
+
+  if (mode === "add") {
+    const newProject = {
+      id: projects.length
+        ? Math.max(...projects.map(p => p.id)) + 1
+        : 1,
+      project: name,
+      desc,
+      status,
+      tasks,
+      startDate,
+      endDate
+    };
+
+    projects.push(newProject);
   }
 
   if (mode === "edit") {
     const p = projects.find(p => p.id === selectedProjectId);
-    if (p) {
-      p.project = name;
-      p.desc = desc;
-      p.status = status;
-      p.tasks = tasks;
-      p.startDate = startDate;
-      p.endDate = endDate;
-    }
+    if (!p) return;
+
+    p.project = name;
+    p.desc = desc;
+    p.status = status;
+    p.tasks = tasks;
+    p.startDate = startDate;
+    p.endDate = endDate;
   }
+
+  
 
   saveToStorage();
   currentData = [...projects];
