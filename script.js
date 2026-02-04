@@ -27,6 +27,77 @@ function displayStatus(status) {
   return status.replace("-", " ").replace(/\b\w/g, c => c.toUpperCase());
 }
 
+/***-----Profile---******/
+function toggleProfile(event) {
+  event.stopPropagation(); // prevent body click
+  const dropdown = document.getElementById("profileDropdown");
+
+  dropdown.style.display =
+    dropdown.style.display === "block" ? "none" : "block";
+}
+document.body.addEventListener("click", () => {
+  const dropdown = document.getElementById("profileDropdown");
+  dropdown.style.display = "none";
+});
+function openEditModal(event) {
+  event.preventDefault();
+
+  const nameText = document.querySelector(
+    "#profileDropdown p:nth-child(1)"
+  ).innerText.replace("Name:", "").trim();
+
+  const contactText = document.querySelector(
+    "#profileDropdown p:nth-child(2)"
+  ).innerText.replace("Contact:", "").trim();
+
+  document.getElementById("editName").value = nameText;
+  document.getElementById("editMobile").value = contactText;
+
+  document.getElementById("editModal").style.display = "flex";
+}
+document.getElementById("saveProfile").addEventListener("click", () => {
+  const newName = document.getElementById("editName").value.trim();
+  const newMobile = document.getElementById("editMobile").value.trim();
+
+  if (!newName || !newMobile) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const profileInfo = document.querySelectorAll("#profileDropdown p");
+  profileInfo[0].innerHTML = `<strong>Name:</strong> ${newName}`;
+  profileInfo[1].innerHTML = `<strong>Contact:</strong> ${newMobile}`;
+
+  document.getElementById("editModal").style.display = "none";
+});
+document.getElementById("closeModal").addEventListener("click", () => {
+  document.getElementById("editModal").style.display = "none";
+});
+function saveProfileToStorage(name, mobile) {
+  localStorage.setItem(
+    "adminProfile",
+    JSON.stringify({ name, mobile })
+  );
+}
+
+function loadProfileFromStorage() {
+  const profile = JSON.parse(localStorage.getItem("adminProfile"));
+  if (!profile) return;
+
+  const profileInfo = document.querySelectorAll("#profileDropdown p");
+  profileInfo[0].innerHTML = `<strong>Name:</strong> ${profile.name}`;
+  profileInfo[1].innerHTML = `<strong>Contact:</strong> ${profile.mobile}`;
+}
+document.getElementById("logoutBtn").onclick = () => {
+  localStorage.clear();
+  window.location.href = "login.html";
+};
+
+
+loadProfileFromStorage();
+
+
+
 /***********************
  * RENDER TABLE
  ***********************/
@@ -143,6 +214,23 @@ function closeModal() {
 }
 
 
+function openAddModal() {
+  mode = "add";
+  selectedProjectId = null;
+
+  document.getElementById("modalTitle").innerText = "Add Project";
+
+  document.getElementById("projectName").value = "";
+  document.getElementById("projectDesc").value = "";
+  document.getElementById("projectStatus").value = "Completed";
+  document.getElementById("projectTasks").value = "";
+  document.getElementById("projectStartDate").value = "";
+  document.getElementById("projectEndDate").value = "";
+
+  document.getElementById("crudModal").style.display = "flex";
+}
+
+
 function saveProject() {
   const name = document.getElementById("projectName").value.trim();
   const desc = document.getElementById("projectDesc").value.trim();
@@ -154,21 +242,39 @@ function saveProject() {
   const endDate = document.getElementById("projectEndDate").value;
 
   if (!name || !desc) {
-    alert("Please fill all fields");
+    alert("Please fill all required fields");
     return;
+  }
+
+  if (mode === "add") {
+    const newProject = {
+      id: projects.length
+        ? Math.max(...projects.map(p => p.id)) + 1
+        : 1,
+      project: name,
+      desc,
+      status,
+      tasks,
+      startDate,
+      endDate
+    };
+
+    projects.push(newProject);
   }
 
   if (mode === "edit") {
     const p = projects.find(p => p.id === selectedProjectId);
-    if (p) {
-      p.project = name;
-      p.desc = desc;
-      p.status = status;
-      p.tasks = tasks;
-      p.startDate = startDate;
-      p.endDate = endDate;
-    }
+    if (!p) return;
+
+    p.project = name;
+    p.desc = desc;
+    p.status = status;
+    p.tasks = tasks;
+    p.startDate = startDate;
+    p.endDate = endDate;
   }
+
+  
 
   saveToStorage();
   currentData = [...projects];

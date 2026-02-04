@@ -31,7 +31,7 @@
             <hr />
             <a href="#" onclick="openEditModal(event)">Edit Profile</a>
               
-            <button class="logout" id="logout_btn" onclick="logout()">Logout</button>
+            <button type="button" id="logoutBtn">Logout</button>
         </div>
     </div>
 </header>
@@ -85,7 +85,10 @@
     <input type="file" id="csvInput" accept=".csv" />
 <button type="button" onclick="downloadCSV()">Download CSV</button>
 
-    <button id="addProjectBtn" onclick="openModal('add')">➕ Add Project</button>
+<button type="button" onclick="openAddModal()">➕ Add Project</button>
+
+
+
 </div>
 
         <!-- TABLE (FIXED STRUCTURE) -->
