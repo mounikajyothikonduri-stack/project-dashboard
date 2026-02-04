@@ -26,14 +26,24 @@
     <div class="profile-container" onclick="toggleProfile(event)">
         <div class="profile profile-icon">👤 Admin</div>
         <div class="profile-dropdown" id="profileDropdown">
-            <p><strong>Name:</strong> Mounika K</p>
-            <p><strong>Contact:</strong> 98765 43210</p>
+            <div class="profile-pic-container">
+             <img id="profilePic" src="default-avatar.png" alt="Profile Picture" />
+             <input type="file" id="profileInput" accept="image/*" hidden />
+            </div>
+<div class="profile-details">
+  <p><span class="label">Name:</span> <span class="value">Mounika K</span></p>
+  <p><span class="label">Contact:</span> <span class="value">98765 43210</span></p>
+              <a href="#" onclick="openEditModal(event)">Edit Profile</a>
+
+</div>
+
             <hr />
-            <a href="#" onclick="openEditModal(event)">Edit Profile</a>
               
+            
             <button type="button" id="logoutBtn">Logout</button>
         </div>
     </div>
+    
 </header>
 <!-- Edit Profile Button -->
 <div id="editModal" class="modal">

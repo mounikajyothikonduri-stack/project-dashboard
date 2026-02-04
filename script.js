@@ -9,39 +9,6 @@ let taskAsc = true;
 const tableBody = document.getElementById("tableBody");
 const filter = document.getElementById("statusFilter");
 
-const REQUIRED_HEADERS = [
-  "id",
-  "project",
-  "desc",
-  "status",
-  "tasks",
-  "startDate",
-  "endDate"
-];
-function validateCSVHeaders(headers) {
-  return REQUIRED_HEADERS.every(h =>
-    headers.includes(h)
-  );
-}
-reader.onload = e => {
-  const csvText = e.target.result.trim();
-  const rows = csvText.split("\n");
-  const headers = rows[0].split(",").map(h => h.trim());
-
-  if (!validateCSVHeaders(headers)) {
-    alert("Invalid CSV format. Please upload a valid file.");
-    return;
-  }
-
-  projects = parseCSV(csvText);
-  currentData = [...projects];
-
-  saveToStorage();
-  renderTable(currentData);
-  updateChart(currentData);
-};
-
-
 /***********************
  * STORAGE
  ***********************/
@@ -88,6 +55,20 @@ function openEditModal(event) {
 
   document.getElementById("editModal").style.display = "flex";
 }
+window.addEventListener("DOMContentLoaded", () => {
+  const storedProfile = localStorage.getItem("profile");
+  if (storedProfile) {
+    const { name, mobile, pic } = JSON.parse(storedProfile);
+
+    const profileValues = document.querySelectorAll("#profileDropdown .profile-details .value");
+    profileValues[0].textContent = name;
+    profileValues[1].textContent = mobile;
+
+    if (pic) {
+      document.getElementById("profilePic").src = pic;
+    }
+  }
+});
 document.getElementById("saveProfile").addEventListener("click", () => {
   const newName = document.getElementById("editName").value.trim();
   const newMobile = document.getElementById("editMobile").value.trim();
@@ -330,6 +311,8 @@ function deleteProject(id) {
 /***********************
  * CSV UPLOAD
  ***********************/
+
+
 document.getElementById("csvInput").addEventListener("change", e => {
   const file = e.target.files[0];
   if (!file) return;
@@ -337,6 +320,7 @@ document.getElementById("csvInput").addEventListener("change", e => {
   const reader = new FileReader();
 
   reader.onload = evt => {
+    
     projects = parseCSV(evt.target.result);
     saveToStorage();
 
@@ -349,6 +333,81 @@ document.getElementById("csvInput").addEventListener("change", e => {
 
   reader.readAsText(file);
 });
+
+document.getElementById("csvInput").addEventListener("change", e => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  // Optional: file type check
+  if (!file.name.toLowerCase().endsWith(".csv")) {
+    alert("❌ Please upload a CSV file only");
+    e.target.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = evt => {
+    const csvText = evt.target.result.trim();
+
+    if (!csvText) {
+      alert("❌ CSV file is empty");
+      e.target.value = "";
+      return;
+    }
+
+    const lines = csvText.split("\n");
+
+    // ✅ Expected headers (order matters)
+    const expectedHeaders = [
+      "id",
+      "project",
+      "desc",
+      "status",
+      "tasks",
+      "startDate",
+      "endDate"
+    
+    ];
+
+    const csvHeaders = lines[0]
+      .split(",")
+      .map(h => h.trim());
+
+    //  Header count mismatch
+    if (csvHeaders.length !== expectedHeaders.length) {
+      alert("❌ File mismatch: Invalid number of headers");
+      e.target.value = "";
+      return;
+    }
+
+    //  Header name mismatch
+    const isValid = expectedHeaders.every(
+      (header, index) => header === csvHeaders[index]
+    );
+
+    if (!isValid) {
+      alert("❌ File mismatch: Invalid headers are present in this file");
+      e.target.value = "";
+      return;
+    }
+
+    // Headers are valid → continue
+    projects = parseCSV(csvText);
+    saveToStorage();
+
+    currentData = [...projects];
+    renderTable(currentData);
+    updateChart(currentData);
+
+    alert("✅ CSV uploaded successfully");
+    e.target.value = "";
+  };
+
+  reader.readAsText(file);
+});
+
+
 
 /***********************
  * CSV PARSER
@@ -418,6 +477,7 @@ function downloadCSV() {
     "startDate",
     "endDate"
   ];
+  
 
   let csvContent = headers.join(",") + "\n";
 
@@ -446,6 +506,57 @@ function downloadCSV() {
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
+
+const profilePic = document.getElementById("profilePic");
+const profileInput = document.getElementById("profileInput");
+
+/* Open file picker when image is clicked */
+profilePic.addEventListener("click", e => {
+  e.stopPropagation(); // 🔑 prevents dropdown from closing
+  profileInput.click();
+});
+
+/* Read and preview image */
+profileInput.addEventListener("change", e => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("❌ Please upload an image file");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    profilePic.src = reader.result;
+
+    // Optional: save image
+    localStorage.setItem("profileImage", reader.result);
+  };
+
+  reader.readAsDataURL(file);
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+  // Get stored values from localStorage
+  const image = localStorage.getItem("profileImage");
+  const name = localStorage.getItem("Name") || "Admin User";
+  const mobile = localStorage.getItem("Contact") || "N/A";
+
+  // Select profile elements
+  const profileValues = document.querySelectorAll(".profile-details .value");
+  const profilePic = document.getElementById("profilePic");
+
+  // Update DOM
+  profileValues[0].textContent = name;
+  profileValues[1].textContent = mobile;
+
+  if (image) {
+    profilePic.src = image;
+  }
+});
+
+
 
 /***********************
  * INIT
