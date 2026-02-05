@@ -1,0 +1,131 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f6f8;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+h2 {
+  margin-top: 25px;
+  color: #34495e;
+}
+
+form {
+  background: #ffffff;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.form-row {
+  display: flex;
+  align-items: center;
+    margin-bottom: 15px; 
+    gap: 40px;
+
+}
+
+.form-row label {
+  width: 150px;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+.module {
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+  border-left: 6px solid;
+  background-color: #f9f9f9;
+}
+
+/* Employee Module – Blue */
+.module-employee {
+  border-color: #1e88e5;
+  
+}
+
+/* Earnings Module – Green */
+.module-earnings {
+  border-color: #2e7d32;
+}
+
+/* Deductions Module – Red */
+.module-deductions {
+  border-color: #c62828;
+}
+
+/* Heading style */
+.module h2 {
+  margin-bottom: 15px;
+}
+
+
+
+input {
+  width: 30%;
+  padding: 8px;
+  margin-top: 4px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  margin-top: 25px;
+  padding: 12px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #1f6391;
+}
+
+#payslipOutput {
+  background: white;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: right;
+}
+
+th {
+  background-color: #f0f0f0;
+  text-align: center;
+}
+
+.net-salary {
+  margin-top: 20px;
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #27ae60;
+  background-color: #eafaf1;
+  border-radius: 6px;
+}
