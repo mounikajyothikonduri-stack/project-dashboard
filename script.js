@@ -189,19 +189,28 @@ document.getElementById("searchInput").addEventListener("input", e => {
     )
   );
 });
+
+/* view modal*/
 function viewProject(id) {
   const p = projects.find(p => p.id === id);
   if (!p) return;
 
-  alert(
-    `Project : ${p.project}
-Description : ${p.desc}
-Status : ${displayStatus(p.status)}
-Tasks : ${p.tasks}
-Start Date : ${p.startDate}
-End Date : ${p.endDate}`
-  );
+  document.getElementById("viewProjectTitle").textContent = p.project;
+  document.getElementById("viewProjectDesc").textContent = p.desc;
+  document.getElementById("viewProjectStatus").textContent = displayStatus(p.status);
+  document.getElementById("viewProjectTasks").textContent = p.tasks;
+  document.getElementById("viewProjectStart").textContent = p.startDate;
+  document.getElementById("viewProjectEnd").textContent = p.endDate;
+
+  document.getElementById("viewModal").style.display = "flex";
 }
+
+// Close the modal
+document.getElementById("closeViewModal").addEventListener("click", () => {
+  document.getElementById("viewModal").style.display = "none";
+});
+
+
 let selectedProjectId = null;
 let mode = "add";
 
@@ -540,12 +549,12 @@ profileInput.addEventListener("change", e => {
 window.addEventListener("DOMContentLoaded", () => {
   // Get stored values from localStorage
   const image = localStorage.getItem("profileImage");
-  const name = localStorage.getItem("Name") || "Admin User";
-  const mobile = localStorage.getItem("Contact") || "N/A";
+  const name = localStorage.getItem("profileName") || "Admin User";
+  const mobile = localStorage.getItem("contact") || "N/A";
 
   // Select profile elements
-  const profileValues = document.querySelectorAll(".profile-details .value");
-  const profilePic = document.getElementById("profilePic");
+  const profileValues = document.querySelectorAll("#profileDropdown .profile-details .value");
+  //const profilePic = document.getElementById("profilePic");
 
   // Update DOM
   profileValues[0].textContent = name;
@@ -555,6 +564,8 @@ window.addEventListener("DOMContentLoaded", () => {
     profilePic.src = image;
   }
 });
+
+
 
 
 
