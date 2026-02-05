@@ -1,0 +1,56 @@
+Open the Dashboard
+===================
+
+Open index.html in your browser.
+
+Manage Projects
+=================
+
+Click Add Project to add new projects.
+
+Click Edit ✏️ icon to update project details.
+
+Click Delete 🗑️ to remove a project.
+
+Click View 👁️ icon to see project details in a card modal.
+
+Search & Filter
+===============
+
+Use the search input to find projects by name.
+
+Use the status filter to display projects based on their status.
+
+Sort Projects
+===============
+
+Click the Name or Tasks headers to sort projects in ascending/descending order.
+
+CSV Upload
+============
+
+Click Upload CSV to import projects from a CSV file.
+
+Ensure the CSV headers match:
+
+id,project,desc,status,tasks,startDate,endDate
+
+
+Profile Management
+================
+
+Click on the profile icon to open the dropdown.
+
+Update name, contact, and profile picture.
+
+Data persists after page reload.
+
+View Charts
+===========
+
+The bar chart automatically updates when projects are modified.
+
+Logout
+======
+
+Click Logout to clear all data and return to login page.
