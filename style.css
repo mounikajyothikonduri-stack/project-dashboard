@@ -26,7 +26,7 @@
     position: absolute;
     right: 0;
     top: 45px;
-    background: white;
+    background:whitesmoke;
     color: black;
     padding: 15px;
     width: 200px;
@@ -37,16 +37,68 @@
 .profile-dropdown a {
     display: block;
     margin-top: 10px;
+    margin: auto;
+    color: tomato;
 }
 
-.logout {
-    margin-top: 10px;
-    width: 100%;
-    padding: 6px;
-    background: gray;
-    color: white;
-    border: none;
+#logoutBtn {
+  width: 100%;
+  padding: 10px;
+  background-color: #ef4444;   /* red */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 10px;
 }
+
+#logoutBtn:hover {
+  background-color: #dc2626;
+}
+
+
+
+
+
+.profile-details {
+  padding: 12px 10px;
+  background: beige;
+  border-radius: 10px;
+    gap: 6px;              /* space between label & value */
+  white-space: nowrap;  /* ❗ prevents line break */
+
+  width: fit-content;
+  margin-bottom: 10px;
+  margin-right: 100px;
+}
+
+
+
+.profile-details p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.profile-details .label {
+  font-weight: 600;
+  color: #555;
+  display: inline-block;
+  width: 70px; /* aligns text */
+}
+
+.profile-details .value {
+  font-weight: 500;
+  color: #111;
+    display: inline-block;
+      max-width: 160px;         /* adjust based on your layout */
+
+
+}
+
 
 /* ===== LAYOUT ===== */
 .container {
@@ -112,7 +164,7 @@ th {
 
 /* STATUS COLORS */
 .complete{
-  background-color: #18e11f; /* green */
+  background-color: #a5dea7; /* green */
 }
 
 .in-progress {
@@ -210,5 +262,19 @@ th {
   justify-content: flex-end;
   gap: 10px;
   margin-top: 20px;
+}
+.profile-pic-container {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+
+
+.profile-pic-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
 }
 
