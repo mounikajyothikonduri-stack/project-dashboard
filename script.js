@@ -55,20 +55,7 @@ function openEditModal(event) {
 
   document.getElementById("editModal").style.display = "flex";
 }
-window.addEventListener("DOMContentLoaded", () => {
-  const storedProfile = localStorage.getItem("profile");
-  if (storedProfile) {
-    const { name, mobile, pic } = JSON.parse(storedProfile);
 
-    const profileValues = document.querySelectorAll("#profileDropdown .profile-details .value");
-    profileValues[0].textContent = name;
-    profileValues[1].textContent = mobile;
-
-    if (pic) {
-      document.getElementById("profilePic").src = pic;
-    }
-  }
-});
 document.getElementById("saveProfile").addEventListener("click", () => {
   const newName = document.getElementById("editName").value.trim();
   const newMobile = document.getElementById("editMobile").value.trim();
@@ -421,12 +408,15 @@ document.getElementById("csvInput").addEventListener("change", e => {
 /***********************
  * CSV PARSER
  ***********************/
+
 function parseCSV(csv) {
   const lines = csv.trim().split("\n");
   const data = [];
+  const errors = [];
 
   for (let i = 1; i < lines.length; i++) {
-    if (!lines[i].trim()) continue;
+    const line = lines[i].trim();
+    if (!line) continue;
 
     const [
       id,
@@ -436,8 +426,32 @@ function parseCSV(csv) {
       tasks,
       startDate,
       endDate
-    ] = lines[i].split(",");
+    ] = line.split(",");
 
+    // Row validation
+    if (!id || isNaN(id)) {
+      continue;
+    }
+    if (!project) {
+      continue;
+    }
+    if (!desc) {
+      continue;
+    }
+    if (!status) {
+      continue;
+    }
+    if (!tasks || isNaN(tasks)) {
+      continue;
+    }
+    if (!startDate) {
+      continue;
+    }
+    if (!endDate) {
+      continue;
+    }
+
+    // All checks passed → push to data
     data.push({
       id: Number(id),
       project: project.trim(),
@@ -448,8 +462,14 @@ function parseCSV(csv) {
       endDate: endDate.trim()
     });
   }
+
+  if (errors.length) {
+    alert("❌ CSV import issues:\n" + errors.join("\n"));
+  }
+
   return data;
 }
+
 
 /***********************
  * CHART
@@ -545,6 +565,7 @@ profileInput.addEventListener("change", e => {
 
   reader.readAsDataURL(file);
 });
+
 
 window.addEventListener("DOMContentLoaded", () => {
   // Get stored values from localStorage
