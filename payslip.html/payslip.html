@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Salary Payslip Generator</title>
+  <link rel="stylesheet" href="payslip.css">
+</head>
+<body>
+
+  <h1>Salary Payslip Generator</h1>
+
+  <form id="payslipForm">
+<div class="module module-employee">
+
+    <h2>Company & Employee Details</h2>
+    
+<div class="form-row">
+
+    <label>Company Name</label>
+    <input type="text" id="companyName">
+
+    <label>Company Address</label>
+    <input type="text" id="companyAddress">
+
+    <label>Employee Name</label>
+    <input type="text" id="employeeName">
+</div>
+<div class="form-row">
+    <label>Employee ID</label>
+    <input type="text" id="employeeId">
+
+    <label>Department</label>
+    <input type="text" id="department">
+
+    <label>Designation</label>
+    <input type="text" id="designation">
+</div>
+<div class="form-row">
+    <label>Date of Joining</label>
+    <input type="date" id="joiningDate">
+
+    <label>Pay Month & Year</label>
+    <input type="month" id="payMonth">
+</div>
+</div>
+<div class="module module-earnings">
+    <h2>Earnings</h2>
+<div class="form-row">
+    <label>Basic Salary</label>
+    <input type="number" id="basic">
+
+    <label>HRA</label>
+    <input type="number" id="hra">
+
+    <label>Special Allowance</label>
+    <input type="number" id="special">
+</div>
+<div class="form-row">
+    <label>Conveyance Allowance</label>
+    <input type="number" id="conveyance">
+
+    <label>Other Allowances</label>
+    <input type="number" id="otherAllowance">
+</div>
+</div>
+<div class="module module-deductions">
+    <h2>Deductions</h2>
+<div class="form-row">
+    <label>PF</label>
+    <input type="number" id="pf">
+
+    <label>Professional Tax</label>
+    <input type="number" id="pt">
+</div>
+<div class="form-row">
+    <label>Income Tax</label>
+    <input type="number" id="tax">
+
+    <label>Other Deductions</label>
+    <input type="number" id="otherDeduction">
+</div>
+</div>
+</div>
+    <button type="button" onclick="generatePayslip()">Generate Payslip</button>
+
+  </form>
+
+  <div id="payslipOutput"></div>
+    <button type="button"class onclick="downloadPayslip()">Download Payslip</button>
+
+
+  <script src="payslip.js"></script>
+</body>
+</html>
