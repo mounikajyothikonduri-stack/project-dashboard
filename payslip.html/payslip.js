@@ -110,12 +110,37 @@ function generatePayslip() {
 
 function downloadPayslip() {
   const payslipContent = document.getElementById("payslipOutput").innerHTML;
-  const blob = new Blob([payslipContent], { type: "text/html" });
+
+  const css = `
+  body { font-family: Arial; background:#f4f6f8; padding:20px; }
+  #payslipOutput { background:white; padding:20px; max-width:900px; margin:auto; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+  table { width:100%; border-collapse:collapse; }
+  th, td { border:1px solid #ddd; padding:8px; text-align:right; }
+  th { background:#f0f0f0; text-align:center; }
+  .net-salary { font-size:22px; font-weight:bold; color:green; text-align:center; }
+  `;
+
+  const html = `
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Payslip</title>
+    <style>${css}</style>
+  </head>
+  <body>
+    <div id="payslipOutput">${payslipContent}</div>
+  </body>
+  </html>
+  `;
+
+  const blob = new Blob([html], { type: "text/html" });
   const url = URL.createObjectURL(blob);
+
   const a = document.createElement("a");
   a.href = url;
-  a.download = "#payslipOutput";
+  a.download = "payslip.html";
   a.click();
+
   URL.revokeObjectURL(url);
 }
 
